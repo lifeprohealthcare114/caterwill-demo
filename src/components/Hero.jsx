@@ -9,12 +9,9 @@ const Hero = () => {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    // Check if mobile device
     setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
     
-    // Initialize video event listeners
     const video = videoRef.current;
-    
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
     
@@ -22,7 +19,6 @@ const Hero = () => {
       video.addEventListener('play', handlePlay);
       video.addEventListener('pause', handlePause);
       
-      // Try to autoplay (muted is required for autoplay in most browsers)
       const playPromise = video.play();
       
       if (playPromise !== undefined) {
@@ -57,7 +53,6 @@ const Hero = () => {
       }
     } catch (error) {
       console.error("Play/pause error:", error);
-      // Fallback: Toggle play/pause state even if video doesn't respond
       setIsPlaying(!isPlaying);
     }
   };
@@ -120,7 +115,8 @@ const Hero = () => {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="hero-buttons"
         >
-          {/* <a href="#features" className="btn btn-primary">Explore Features</a> */}
+          <a href="#features" className="btn btn-primary">Explore Features</a>
+          <a href="#specs" className="btn btn-secondary">Technical Specs</a>
         </motion.div>
       </div>
       

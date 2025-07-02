@@ -8,15 +8,15 @@ import SpecsTable from './components/SpecsTable';
 import Footer from './components/Footer';
 import SideNavigation from './components/SideNavigation';
 import './styles/main.css';
+import './styles/animations.css';
 
 function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -24,7 +24,10 @@ function App() {
   if (loading) {
     return (
       <div className="loading-screen">
-        <div className="spinner"></div>
+        <div className="loading-spinner">
+          <div className="spinner-circle"></div>
+          <p>Loading Caterwil GTS-4WD</p>
+        </div>
       </div>
     );
   }
@@ -32,13 +35,15 @@ function App() {
   return (
     <div className="app">
       <Header />
-      <Hero />
-      <SideNavigation />
-      <KeyFeatures />
-      <ProductViewer />
-       <GallerySection />
-      <SpecsTable />
+      <main>
+        <Hero />
+        <KeyFeatures />
+        <GallerySection />
+        <ProductViewer />
+        <SpecsTable />
+      </main>
       <Footer />
+      <SideNavigation />
     </div>
   );
 }

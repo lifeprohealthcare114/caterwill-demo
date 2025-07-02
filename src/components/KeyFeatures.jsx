@@ -106,17 +106,24 @@ const KeyFeatures = () => {
 
   return (
     <section id="features" className="features-section">
-      <div className="features-container">
+      <div className="container">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="features-title"
+          transition={{ duration: 0.6 }}
+          className="section-title"
         >
           KEY FEATURES
         </motion.h2>
         
-        <div className="features-grid">
+        <motion.div 
+          className="features-grid"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ staggerChildren: 0.1 }}
+        >
           {features.map((feature, index) => (
             <motion.div
               key={index}
@@ -126,7 +133,7 @@ const KeyFeatures = () => {
               viewport={{ once: true }}
               className="feature-card"
               onClick={() => openFeature(feature)}
-              whileHover={{ scale: 1.03 }}
+              whileHover={{ y: -5 }}
             >
               <div 
                 className="feature-icon"
@@ -135,14 +142,25 @@ const KeyFeatures = () => {
                   color: feature.iconColor
                 }}
               >
-                {feature.icon}
+                <motion.div
+                  whileHover={{ rotate: 10 }}
+                  transition={{ type: 'spring' }}
+                >
+                  {feature.icon}
+                </motion.div>
               </div>
               <h3 className="feature-title">{feature.title}</h3>
               <p className="feature-description">{feature.description}</p>
-              <span className="learn-more">Learn more →</span>
+              <motion.div 
+                className="learn-more"
+                whileHover={{ x: 5 }}
+                transition={{ type: 'spring', stiffness: 500 }}
+              >
+                Learn more →
+              </motion.div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         <AnimatePresence>
           {selectedFeature && (
@@ -155,10 +173,10 @@ const KeyFeatures = () => {
             >
               <motion.div 
                 className="feature-modal-content"
-                initial={{ scale: 0.9, opacity: 0 }}
+                initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 300 }}
                 onClick={(e) => e.stopPropagation()}
               >
                 <button 
@@ -184,10 +202,16 @@ const KeyFeatures = () => {
                 
                 <ul className="modal-details">
                   {selectedFeature.details.map((detail, i) => (
-                    <li key={i} className="detail-item">
+                    <motion.li 
+                      key={i}
+                      className="detail-item"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                    >
                       <span className="detail-bullet">•</span>
                       {detail}
-                    </li>
+                    </motion.li>
                   ))}
                 </ul>
               </motion.div>

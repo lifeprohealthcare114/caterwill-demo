@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaTimes, FaChevronLeft, FaChevronRight, FaExpand } from 'react-icons/fa';
 
 const images = [
   {
@@ -76,39 +76,54 @@ const GallerySection = () => {
 
   return (
     <section id="gallery" className="gallery-section">
-      <div className="gallery-container">
+      <div className="container">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="gallery-title"
+          transition={{ duration: 0.6 }}
+          className="section-title"
         >
           PRODUCT GALLERY
         </motion.h2>
         
-        <div className="gallery-grid">
+        <motion.div 
+          className="gallery-grid"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, staggerChildren: 0.1 }}
+        >
           {images.map((image, index) => (
             <motion.div
               key={image.id}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+              viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="gallery-item"
               onClick={() => openModal(index)}
+              whileHover={{ scale: 1.02 }}
             >
-              <img 
-                src={image.src} 
-                alt={image.alt}
-                className="gallery-image"
-                loading="lazy"
-              />
-              <div className="gallery-overlay">
-                <h3 className="gallery-item-title">{image.title}</h3>
+              <div className="image-container">
+                <img 
+                  src={image.src} 
+                  alt={image.alt}
+                  className="gallery-image"
+                  loading="lazy"
+                />
+                <div className="gallery-overlay">
+                  <div className="overlay-content">
+                    <h3 className="gallery-item-title">{image.title}</h3>
+                    <div className="view-button">
+                      <FaExpand />
+                    </div>
+                  </div>
+                </div>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
         
         <AnimatePresence>
           {isModalOpen && (
@@ -119,7 +134,14 @@ const GallerySection = () => {
               className="gallery-modal-overlay"
               onClick={closeModal}
             >
-              <div className="gallery-modal-content" onClick={(e) => e.stopPropagation()}>
+              <motion.div 
+                className="gallery-modal-content"
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 300 }}
+                onClick={(e) => e.stopPropagation()}
+              >
                 <button 
                   className="gallery-modal-close"
                   onClick={closeModal}
@@ -134,10 +156,11 @@ const GallerySection = () => {
                     alt={images[currentIndex].alt}
                     className="gallery-modal-image"
                   />
-                  <div className="gallery-modal-info">
-                    <h3>{images[currentIndex].title}</h3>
-                    <p>{images[currentIndex].description}</p>
-                  </div>
+                </div>
+                
+                <div className="gallery-modal-info">
+                  <h3>{images[currentIndex].title}</h3>
+                  <p>{images[currentIndex].description}</p>
                 </div>
                 
                 <div className="gallery-modal-controls">
@@ -177,7 +200,7 @@ const GallerySection = () => {
                     <FaChevronRight />
                   </button>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
